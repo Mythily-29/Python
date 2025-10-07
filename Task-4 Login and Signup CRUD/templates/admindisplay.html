@@ -1,0 +1,141 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #6a1b1b;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #6a1b1b;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    tr:hover {
+      background: #f1f1f1;
+      transition: 0.2s;
+    }
+
+    td {
+      font-size: 14px;
+      color: #333;
+    }
+    .edit{
+        border: 0;
+        padding: 0.5rem;
+        background-color: rgb(91, 177, 247);
+    }
+    .delete{
+        border: 0;
+        padding: 0.5rem;
+        background-color: rgb(253, 122, 122);
+    }
+  </style>
+    <a href="signup"><button style="background-color: rgb(152, 248, 152);border: 0;
+        padding: 0.5rem;">CREATE USER</button></a>
+    <h2>Admin panel</h2>
+    <table style="border: 1;">
+        <tr>
+            <th>ID</th>
+            <th>Role</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Created at</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for user in users%}
+        <tr>
+            <td>{{user[0]}}</td>
+            <td class="role">{{user[1]}}</td>
+            <td>{{user[2]}}</td>
+            <td class="email">{{user[3]}}</td>
+            <td>{{user[4]}}</td>
+            <td>{{user[5]}}</td>
+            <td><button data-email="{{user[4]}}" onclick="editing(this)" class="edit">EDIT</button></td>
+            <td><button onclick="deleting_user(this)" class="delete">DELETE</button></td>
+        </tr>
+        {%endfor%}
+    </table>
+    <script>
+        function editing(x){
+            let closest=x.closest('tr')
+            let role=closest.querySelector('.role')
+            let email=closest.querySelector('.email')
+            let edit=closest.querySelector('.edit')
+
+            if(edit.textContent=="EDIT"){
+                edit.textContent="Save"
+                role.innerHTML=`<input type="text" value="${role.textContent}">`
+            }
+            else{
+                let val=document.querySelector('.role input').value
+                edit.textContent="EDIT"
+                role.textContent=val
+            }
+
+            let updatedvalue={
+                "role":role.textContent,
+                "email":email.textContent
+            }
+
+            fetch('/updatevalue',{
+                method:'PUT',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify(updatedvalue)
+            })
+            .catch(error=>console.log(error))
+        }
+
+        function deleting_user(x){
+            let closest=x.closest('tr')
+            let email=closest.querySelector('.email')
+            let deleting_value={'email':email.textContent}
+
+            fetch('/deletevalue',{
+                method:'DELETE',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify(deleting_value)
+            })
+            alert('Successfully deleted')
+        }
+    </script>
+</body>
+</html>

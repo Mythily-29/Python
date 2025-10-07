@@ -1,0 +1,83 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #6a1b1b;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #6a1b1b;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    tr:hover {
+      background: #f1f1f1;
+      transition: 0.2s;
+    }
+
+    td {
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+  <h2 style="color: brown;">Users list</h2>
+  <table style="border: 1;">
+    <tr>
+      <th>ID</th>
+      <th>Role</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Created at</th>
+    </tr>
+    <tr> {% for user in users %}
+    <tr> {% if user[1] != 1 %} <td>{{user[0]}}</td>
+      <td>User</td>
+      <td>{{user[2]}}</td>
+      <td>{{user[3]}}</td>
+      <td>{{user[4]}}</td>
+      <td>{{user[5]}}</td>
+      <td>{{user[6]}}</td> {%endif%}
+    </tr> {%endfor%} </tr>
+  </table>
+</body>
+
+</html>
